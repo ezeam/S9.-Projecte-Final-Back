@@ -1,34 +1,30 @@
 // models/Service.ts
 import { DataTypes, Model } from 'sequelize';
 import db from '../db/connection';
+import sequelize from '../db/connection';
 
-interface ServiceAttributes {
-  id_service?: number;
-  name_service: string;
-  description_service: string;
-  price_service: number;
-  creation_date_service?: Date;
-  update_date_service?: Date;
-}
-
-class Service extends Model<ServiceAttributes> implements ServiceAttributes {
+class Service extends Model {
   public id_service!: number;
   public name_service!: string;
   public description_service!: string;
   public price_service!: number;
   public creation_date_service!: Date;
   public update_date_service!: Date;
+
+  // Define any timestamps if needed
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 Service.init(
   {
     id_service: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
     },
     name_service: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     description_service: {
@@ -49,7 +45,7 @@ Service.init(
     },
   },
   {
-    sequelize: db,
+    sequelize,
     tableName: 'services',
     timestamps: false,
   }

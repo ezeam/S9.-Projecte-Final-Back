@@ -1,22 +1,21 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import db from '../db/connection';
-import userRoutes from '../routes/userRoutes'; // Asegúrate de que esta ruta es correcta
+import userRoutes from '../routes/userRoutes';
 import loginRoutes from '../routes/loginRoutes';
 import orderRoutes from '../routes/orderRoutes';
-import paymentRoutes from '../routes/paymentRoutes';
 import serviceRoutes from '../routes/serviceRoutes';
+import webhookRoutes from '../routes/webhookRoutes';
 
 class Server {
   private app: Application;
   private port: string;
 
   constructor() {
-    console.log("PORT:", process.env.PORT);
     this.app = express();
     this.port = process.env.PORT || '3001';
     this.listen();
-    this.midlewares();
+    this.middlewares(); // Cambié a "middlewares"
     this.routes();
     this.dbConnect();
   }
@@ -34,25 +33,19 @@ class Server {
       });
     });
     this.app.use('/api/users', userRoutes);
-    this.app.use('/api/users', loginRoutes);
-    this.app.use('/api/orders', orderRoutes); // Asegúrate de importar orderRoutes
-
-  // Rutas de pagos
-  this.app.use('/api/payments', paymentRoutes); // Asegúrate de importar paymentRoutes
-  
-  // Rutas de servicios (si es necesario)
-  this.app.use('/api/services', serviceRoutes);
+    this.app.use('/api/users', loginRoutes); // Cambia esto a /api/login en un futuro y con CUIDADO : )
+    this.app.use('/api/orders', orderRoutes);
+    this.app.use('/api/services', serviceRoutes);
+    this.app.use('/api/webhook', webhookRoutes);
   }
 
-  midlewares() {
-    // Parseamos el body, convertimos el json en un objeto
+  middlewares() {
     this.app.use(express.json());
 
-    // Cors:
     const corsOptions = {
-      origin: 'http://localhost:4200', // Permite solo este origen
+      origin: 'http://localhost:4200',
       credentials: true,
-      optionsSuccessStatus: 200 // Algunos navegadores antiguos pueden necesitarlo
+      optionsSuccessStatus: 200
     };
     this.app.use(cors(corsOptions));
   }
@@ -62,8 +55,7 @@ class Server {
       await db.authenticate();
       console.log("Base de datos conectada");
     } catch (error) {
-      console.log(error);
-      console.log("Error al conectar con la base de datos");
+      console.error("Error al conectar con la base de datos", error); // Mostrar el error en consola
     }
   }
 }

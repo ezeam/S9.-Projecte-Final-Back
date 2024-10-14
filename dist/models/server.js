@@ -15,18 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
-const userRoutes_1 = __importDefault(require("../routes/userRoutes")); // Asegúrate de que esta ruta es correcta
+const userRoutes_1 = __importDefault(require("../routes/userRoutes"));
 const loginRoutes_1 = __importDefault(require("../routes/loginRoutes"));
 const orderRoutes_1 = __importDefault(require("../routes/orderRoutes"));
-const paymentRoutes_1 = __importDefault(require("../routes/paymentRoutes"));
 const serviceRoutes_1 = __importDefault(require("../routes/serviceRoutes"));
+const webhookRoutes_1 = __importDefault(require("../routes/webhookRoutes"));
 class Server {
     constructor() {
-        console.log("PORT:", process.env.PORT);
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3001';
         this.listen();
-        this.midlewares();
+        this.middlewares(); // Cambié a "middlewares"
         this.routes();
         this.dbConnect();
     }
@@ -42,21 +41,17 @@ class Server {
             });
         });
         this.app.use('/api/users', userRoutes_1.default);
-        this.app.use('/api/users', loginRoutes_1.default);
-        this.app.use('/api/orders', orderRoutes_1.default); // Asegúrate de importar orderRoutes
-        // Rutas de pagos
-        this.app.use('/api/payments', paymentRoutes_1.default); // Asegúrate de importar paymentRoutes
-        // Rutas de servicios (si es necesario)
+        this.app.use('/api/users', loginRoutes_1.default); // Cambia esto a /api/login en un futuro y con CUIDADO : )
+        this.app.use('/api/orders', orderRoutes_1.default);
         this.app.use('/api/services', serviceRoutes_1.default);
+        this.app.use('/api/webhook', webhookRoutes_1.default);
     }
-    midlewares() {
-        // Parseamos el body, convertimos el json en un objeto
+    middlewares() {
         this.app.use(express_1.default.json());
-        // Cors:
         const corsOptions = {
-            origin: 'http://localhost:4200', // Permite solo este origen
+            origin: 'http://localhost:4200',
             credentials: true,
-            optionsSuccessStatus: 200 // Algunos navegadores antiguos pueden necesitarlo
+            optionsSuccessStatus: 200
         };
         this.app.use((0, cors_1.default)(corsOptions));
     }
@@ -67,8 +62,7 @@ class Server {
                 console.log("Base de datos conectada");
             }
             catch (error) {
-                console.log(error);
-                console.log("Error al conectar con la base de datos");
+                console.error("Error al conectar con la base de datos", error); // Mostrar el error en consola
             }
         });
     }

@@ -6,9 +6,14 @@ import jwt from 'jsonwebtoken';
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  console.log('llegas?¿')
+
   try {
     // Buscar el usuario por email
     const user = await User.findOne({ where: { email } }) as User; // Asegúrate de usar el tipo User
+
+    console.log('user =>', user)
+
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }

@@ -1,22 +1,21 @@
-// routes/orderRoutes.ts
-import { Router } from 'express';
-import OrderController from '../controllers/orderController';
+import express, { Request, Response } from 'express';
+import orderController from '../controllers/orderController';
 
-const router = Router();
-
-// Obtener todas las órdenes
-router.get('/', OrderController.getOrders);
+const router = express.Router();
 
 // Crear una nueva orden
-router.post('/', OrderController.createOrder);
+router.post('/create', orderController.createOrder); 
+
+// Obtener todas las órdenes
+router.get('/', orderController.getOrders);
 
 // Obtener una orden por ID
-router.get('/:id', OrderController.getOrderById);
+router.get('/:id', orderController.getOrderById);
 
 // Actualizar una orden
-router.put('/:id', OrderController.updateOrder);
+router.put('/:id/update', orderController.updateOrder);
 
 // Eliminar una orden
-router.delete('/:id', OrderController.deleteOrder);
+router.delete('/:id', orderController.deleteOrder);
 
 export default router;

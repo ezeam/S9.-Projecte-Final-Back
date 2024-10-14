@@ -12,17 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const order_1 = __importDefault(require("../models/order"));
-class orderController {
+const order_1 = __importDefault(require("../models/order")); // Cambia la importación a la correcta
+class OrderController {
     // Obtener todas las órdenes
     getOrders(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const orders = yield order_1.default.findAll();
+                const orders = yield order_1.default.findAll({ include: ['User', 'Service'] }); // Incluye relaciones
                 res.json(orders);
             }
             catch (error) {
-                res.status(500).json({ message: 'Error al obtener las órdenes', error });
+                console.error(error); // Muestra el error en la consola
+                res.status(500).json({ message: 'Error al obtener las órdenes' });
             }
         });
     }
@@ -34,7 +35,8 @@ class orderController {
                 res.status(201).json(newOrder);
             }
             catch (error) {
-                res.status(500).json({ message: 'Error al crear la orden', error });
+                console.error(error); // Muestra el error en la consola
+                res.status(500).json({ message: 'Error al crear la orden' });
             }
         });
     }
@@ -43,7 +45,7 @@ class orderController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const order = yield order_1.default.findByPk(id);
+                const order = yield order_1.default.findByPk(id, { include: ['User', 'Service'] }); // Incluye relaciones
                 if (order) {
                     res.json(order);
                 }
@@ -52,7 +54,8 @@ class orderController {
                 }
             }
             catch (error) {
-                res.status(500).json({ message: 'Error al obtener la orden', error });
+                console.error(error); // Muestra el error en la consola
+                res.status(500).json({ message: 'Error al obtener la orden' });
             }
         });
     }
@@ -73,7 +76,8 @@ class orderController {
                 }
             }
             catch (error) {
-                res.status(500).json({ message: 'Error al actualizar la orden', error });
+                console.error(error); // Muestra el error en la consola
+                res.status(500).json({ message: 'Error al actualizar la orden' });
             }
         });
     }
@@ -93,9 +97,10 @@ class orderController {
                 }
             }
             catch (error) {
-                res.status(500).json({ message: 'Error al eliminar la orden', error });
+                console.error(error); // Muestra el error en la consola
+                res.status(500).json({ message: 'Error al eliminar la orden' });
             }
         });
     }
 }
-exports.default = new orderController();
+exports.default = new OrderController(); // Asegúrate de exportar la instancia

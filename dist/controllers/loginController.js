@@ -18,9 +18,11 @@ const bcrypt_1 = __importDefault(require("bcrypt")); // Asegúrate de tener bcry
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
+    console.log('llegas?¿');
     try {
         // Buscar el usuario por email
         const user = yield user_1.default.findOne({ where: { email } }); // Asegúrate de usar el tipo User
+        console.log('user =>', user);
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }

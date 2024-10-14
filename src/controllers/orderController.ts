@@ -1,15 +1,15 @@
-// controllers/OrderController.ts
 import { Request, Response } from 'express';
-import Order from '../models/order';
+import Order from '../models/order'; // Cambia la importación a la correcta
 
-class orderController {
+class OrderController { // Cambia a PascalCase
   // Obtener todas las órdenes
   public async getOrders(req: Request, res: Response) {
     try {
-      const orders = await Order.findAll();
+      const orders = await Order.findAll({ include: ['User', 'Service'] }); // Incluye relaciones
       res.json(orders);
     } catch (error) {
-      res.status(500).json({ message: 'Error al obtener las órdenes', error });
+      console.error(error); // Muestra el error en la consola
+      res.status(500).json({ message: 'Error al obtener las órdenes' });
     }
   }
 
@@ -19,7 +19,8 @@ class orderController {
       const newOrder = await Order.create(req.body);
       res.status(201).json(newOrder);
     } catch (error) {
-      res.status(500).json({ message: 'Error al crear la orden', error });
+      console.error(error); // Muestra el error en la consola
+      res.status(500).json({ message: 'Error al crear la orden' });
     }
   }
 
@@ -27,14 +28,15 @@ class orderController {
   public async getOrderById(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const order = await Order.findByPk(id);
+      const order = await Order.findByPk(id, { include: ['User', 'Service'] }); // Incluye relaciones
       if (order) {
         res.json(order);
       } else {
         res.status(404).json({ message: 'Orden no encontrada' });
       }
     } catch (error) {
-      res.status(500).json({ message: 'Error al obtener la orden', error });
+      console.error(error); // Muestra el error en la consola
+      res.status(500).json({ message: 'Error al obtener la orden' });
     }
   }
 
@@ -52,7 +54,8 @@ class orderController {
         res.status(404).json({ message: 'Orden no encontrada' });
       }
     } catch (error) {
-      res.status(500).json({ message: 'Error al actualizar la orden', error });
+      console.error(error); // Muestra el error en la consola
+      res.status(500).json({ message: 'Error al actualizar la orden' });
     }
   }
 
@@ -69,9 +72,10 @@ class orderController {
         res.status(404).json({ message: 'Orden no encontrada' });
       }
     } catch (error) {
-      res.status(500).json({ message: 'Error al eliminar la orden', error });
+      console.error(error); // Muestra el error en la consola
+      res.status(500).json({ message: 'Error al eliminar la orden' });
     }
   }
 }
 
-export default new orderController();
+export default new OrderController(); // Asegúrate de exportar la instancia

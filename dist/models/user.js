@@ -10,24 +10,24 @@ class User extends sequelize_1.Model {
 User.init({
     id_user: {
         type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
+        primaryKey: true,
     },
     name: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(50),
         allowNull: false,
     },
     surname: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(50),
         allowNull: false,
     },
     email: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(50),
         allowNull: false,
         unique: true,
     },
     password: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(60),
         allowNull: false,
     },
 }, {

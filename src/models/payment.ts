@@ -2,6 +2,43 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '../db/connection';
 
+export class Payment extends Model {
+  public transactionId!: string;
+  public amount!: number;
+  public currency!: string;
+  public status!: string;
+  public payerEmail!: string;
+}
+
+Payment.init({
+  transactionId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  amount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  currency: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  payerEmail: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+}, {
+  sequelize: db,
+  modelName: 'Payment',
+});
+
+
+
+/*
 interface PaymentAttributes {
   id_payment?: number;
   id_order: number;
@@ -68,3 +105,6 @@ Payment.init(
 );
 
 export default Payment;
+
+*/
+

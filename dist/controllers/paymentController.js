@@ -8,17 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const payment_1 = __importDefault(require("../models/payment"));
+const payment_1 = require("../models/payment");
 class PaymentController {
     // Obtener todos los pagos
     getPayments(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const payments = yield payment_1.default.findAll();
+                const payments = yield payment_1.Payment.findAll();
                 res.json(payments);
             }
             catch (error) {
@@ -30,7 +27,7 @@ class PaymentController {
     createPayment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const newPayment = yield payment_1.default.create(req.body);
+                const newPayment = yield payment_1.Payment.create(req.body);
                 res.status(201).json(newPayment);
             }
             catch (error) {
@@ -43,7 +40,7 @@ class PaymentController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const payment = yield payment_1.default.findByPk(id);
+                const payment = yield payment_1.Payment.findByPk(id);
                 if (payment) {
                     res.json(payment);
                 }
@@ -61,11 +58,11 @@ class PaymentController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const [updated] = yield payment_1.default.update(req.body, {
+                const [updated] = yield payment_1.Payment.update(req.body, {
                     where: { id_payment: id },
                 });
                 if (updated) {
-                    const updatedPayment = yield payment_1.default.findByPk(id);
+                    const updatedPayment = yield payment_1.Payment.findByPk(id);
                     res.json(updatedPayment);
                 }
                 else {
@@ -82,7 +79,7 @@ class PaymentController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const deleted = yield payment_1.default.destroy({
+                const deleted = yield payment_1.Payment.destroy({
                     where: { id_payment: id },
                 });
                 if (deleted) {

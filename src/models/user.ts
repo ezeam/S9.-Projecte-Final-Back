@@ -1,49 +1,46 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '../db/connection';
+import sequelize from '../db/connection';
 
-interface UserAttributes {
-  id_user?: number;
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-}
-
-class User extends Model<UserAttributes> implements UserAttributes {
+class User extends Model {
   public id_user!: number;
   public name!: string;
   public surname!: string;
   public email!: string;
   public password!: string;
+
+  // Define any timestamps if needed
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 User.init(
   {
     id_user: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     surname: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       unique: true,
     },
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(60),
       allowNull: false,
     },
   },
   {
-    sequelize: db,
+    sequelize,
     tableName: 'users',
     timestamps: false,
   }
