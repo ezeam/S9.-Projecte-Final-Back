@@ -20,6 +20,7 @@ const loginRoutes_1 = __importDefault(require("../routes/loginRoutes"));
 const orderRoutes_1 = __importDefault(require("../routes/orderRoutes"));
 const serviceRoutes_1 = __importDefault(require("../routes/serviceRoutes"));
 const webhookRoutes_1 = __importDefault(require("../routes/webhookRoutes"));
+const appointmentRoutes_1 = __importDefault(require("../routes/appointmentRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -45,6 +46,7 @@ class Server {
         this.app.use('/api/orders', orderRoutes_1.default);
         this.app.use('/api/services', serviceRoutes_1.default);
         this.app.use('/api/webhook', webhookRoutes_1.default);
+        this.app.use('/api/appointments', appointmentRoutes_1.default);
     }
     middlewares() {
         this.app.use(express_1.default.json());

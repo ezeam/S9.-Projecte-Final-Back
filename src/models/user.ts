@@ -8,6 +8,8 @@ class User extends Model {
   public surname!: string;
   public email!: string;
   public password!: string;
+  public dni!: string; // Asegúrate de incluir esta propiedad
+  public address!: string;
 
   // Define any timestamps if needed
   public readonly createdAt!: Date;
@@ -27,6 +29,15 @@ User.init(
     },
     surname: {
       type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    dni: {
+      type: DataTypes.STRING(15), 
+      allowNull: false,
+      unique: false, 
+    },
+    address: {
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     email: {

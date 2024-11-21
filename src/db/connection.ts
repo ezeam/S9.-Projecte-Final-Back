@@ -6,3 +6,4 @@ const sequelize = new Sequelize('educare', 'root', '', {
 });
 
 export default sequelize;
+

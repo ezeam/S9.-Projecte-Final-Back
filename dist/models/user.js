@@ -21,6 +21,15 @@ User.init({
         type: sequelize_1.DataTypes.STRING(50),
         allowNull: false,
     },
+    dni: {
+        type: sequelize_1.DataTypes.STRING(15),
+        allowNull: false,
+        unique: false,
+    },
+    address: {
+        type: sequelize_1.DataTypes.STRING(100),
+        allowNull: false,
+    },
     email: {
         type: sequelize_1.DataTypes.STRING(50),
         allowNull: false,

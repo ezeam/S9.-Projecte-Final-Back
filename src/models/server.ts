@@ -6,6 +6,7 @@ import loginRoutes from '../routes/loginRoutes';
 import orderRoutes from '../routes/orderRoutes';
 import serviceRoutes from '../routes/serviceRoutes';
 import webhookRoutes from '../routes/webhookRoutes';
+import appointmentRoutes from '../routes/appointmentRoutes';
 
 class Server {
   private app: Application;
@@ -37,6 +38,7 @@ class Server {
     this.app.use('/api/orders', orderRoutes);
     this.app.use('/api/services', serviceRoutes);
     this.app.use('/api/webhook', webhookRoutes);
+    this.app.use('/api/appointments', appointmentRoutes);
   }
 
   middlewares() {
