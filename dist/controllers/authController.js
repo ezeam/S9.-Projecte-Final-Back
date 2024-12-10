@@ -33,7 +33,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error en el servidor' });
+        res.status(500).json({ msg: `Errore del server. Ci scusiamo per l'inconveniente, ti preghiamo di riprovare più tardi.` });
     }
 });
 exports.registerUser = registerUser;
