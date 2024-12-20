@@ -21,14 +21,37 @@ class Server {
     this.dbConnect();
   }
 
-  listen() {
-    this.app.listen(this.port, () => {
-      console.log("Aplicación corriendo en el puerto", this.port);
-    });
+  middlewares() {
+    this.app.use(express.json());
+
+    /*Desarrollo*/
+    /*
+    const corsOptions = {
+      origin: 'http://localhost:4200',
+      credentials: true,
+      optionsSuccessStatus: 200
+    };
+    this.app.use(cors(corsOptions));
+    */
+
+    /*Producción*/
+    
+    const corsOptions = {
+      origin: 'https://educareinpositivo.site/', 
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true,
+    };
+    this.app.use(cors(corsOptions));
   }
 
   routes() {
-    this.app.get('/', (req: Request, res: Response) => {
+    // Rutas básicas
+    this.app.get('/',(req: Request, res: Response) => {
+      res.send('¡Servidor funcionando correctamente!');
+    });
+
+    this.app.get('/api', (req: Request, res: Response) => {
       res.json({
         msg: 'API working'
       });
@@ -40,18 +63,7 @@ class Server {
     this.app.use('/api/webhook', webhookRoutes);
     this.app.use('/api/appointments', appointmentRoutes);
   }
-
-  middlewares() {
-    this.app.use(express.json());
-
-    const corsOptions = {
-      origin: 'http://localhost:4200',
-      credentials: true,
-      optionsSuccessStatus: 200
-    };
-    this.app.use(cors(corsOptions));
-  }
-
+  
   async dbConnect() {
     try {
       await db.authenticate();
@@ -60,6 +72,13 @@ class Server {
       console.error("Error al conectar con la base de datos", error); // Mostrar el error en consola
     }
   }
+
+  listen() {
+    this.app.listen(this.port, () => {
+      console.log("Aplicación corriendo en el puerto", this.port);
+    });
+  }
 }
+
 
 export default Server;

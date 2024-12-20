@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Order from '../models/order'; // Cambia la importación a la correcta
 
-class OrderController { // Cambia a PascalCase
+class orderController { // Cambia a PascalCase
   // Obtener todas las órdenes
   public async getOrders(req: Request, res: Response) {
     try {
@@ -76,6 +76,9 @@ class OrderController { // Cambia a PascalCase
       res.status(500).json({ message: 'Error al eliminar la orden' });
     }
   }
+
+
 }
 
-export default new OrderController(); // Asegúrate de exportar la instancia
+
+export default new orderController(); // Asegúrate de exportar la instancia

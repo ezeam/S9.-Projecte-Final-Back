@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const order_1 = __importDefault(require("../models/order")); // Cambia la importación a la correcta
-class OrderController {
+class orderController {
     // Obtener todas las órdenes
     getOrders(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -103,4 +103,4 @@ class OrderController {
         });
     }
 }
-exports.default = new OrderController(); // Asegúrate de exportar la instancia
+exports.default = new orderController(); // Asegúrate de exportar la instancia

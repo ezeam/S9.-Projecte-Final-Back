@@ -9,16 +9,15 @@ const sequelize = new Sequelize('educare', 'root', '', {
 */
 
 // ONLINE
-/* */
-const sequelize = new Sequelize(
+ const sequelize = new Sequelize(
   'educvueo_educare_db',  
   'educvueo_educare_user', 
   'wK6b5rLFKwm5Q3', 
   {
-    host: 'localhost',
-    // host: '198.177.120.29',  // Shared IP Address para conexiones externas
+    //host: 'localhost',
+    host: '198.177.120.29',  // Shared IP Address para conexiones externas
     dialect: 'mysql',   
-    // port: 3000? 3306 // Puerto estándar
+    port: 3306 // Puerto estándar
   }
 );
 

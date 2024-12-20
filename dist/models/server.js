@@ -30,13 +30,32 @@ class Server {
         this.routes();
         this.dbConnect();
     }
-    listen() {
-        this.app.listen(this.port, () => {
-            console.log("Aplicación corriendo en el puerto", this.port);
-        });
+    middlewares() {
+        this.app.use(express_1.default.json());
+        /*Desarrollo*/
+        /*
+        const corsOptions = {
+          origin: 'http://localhost:4200',
+          credentials: true,
+          optionsSuccessStatus: 200
+        };
+        this.app.use(cors(corsOptions));
+        */
+        /*Producción*/
+        const corsOptions = {
+            origin: 'https://educareinpositivo.site/',
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            allowedHeaders: ['Content-Type', 'Authorization'],
+            credentials: true,
+        };
+        this.app.use((0, cors_1.default)(corsOptions));
     }
     routes() {
+        // Rutas básicas
         this.app.get('/', (req, res) => {
+            res.send('¡Servidor funcionando correctamente!');
+        });
+        this.app.get('/api', (req, res) => {
             res.json({
                 msg: 'API working'
             });
@@ -48,15 +67,6 @@ class Server {
         this.app.use('/api/webhook', webhookRoutes_1.default);
         this.app.use('/api/appointments', appointmentRoutes_1.default);
     }
-    middlewares() {
-        this.app.use(express_1.default.json());
-        const corsOptions = {
-            origin: 'http://localhost:4200',
-            credentials: true,
-            optionsSuccessStatus: 200
-        };
-        this.app.use((0, cors_1.default)(corsOptions));
-    }
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -66,6 +76,11 @@ class Server {
             catch (error) {
                 console.error("Error al conectar con la base de datos", error); // Mostrar el error en consola
             }
+        });
+    }
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log("Aplicación corriendo en el puerto", this.port);
         });
     }
 }
